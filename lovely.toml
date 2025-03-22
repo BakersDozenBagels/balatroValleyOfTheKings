@@ -1,0 +1,13 @@
+[manifest]
+version = "1.0.0"
+priority = 999
+
+# Create charm area
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = 'self.consumeables = CardArea('
+position = 'before'
+match_indent = true
+times = 1
+payload = "maeplThing_create_card_area()\n"

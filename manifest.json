@@ -1,9 +1,9 @@
 {
-  "id": "maepleThing",
+  "id": "maeplThing",
   "name": "Maepl Thing",
   "author": ["BakersDozenBagels"],
   "description": "",
-  "prefix": "maepleThing",
+  "prefix": "maeplThing",
   "main_file": "src/main.lua",
   "priority": 0,
   "badge_colour": "EDD198",
