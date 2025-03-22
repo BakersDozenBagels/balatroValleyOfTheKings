@@ -8,7 +8,8 @@ return {
             },
             j_maeplThing_Isis = {
                 name = 'Isis',
-                text = {'Adds {C:attention}#1#{} copies of the', '{C:attention}most recently {C:red}destroyed{} {C:attention}playing card',
+                text = {'Adds {C:attention}#1#{} copies of the',
+                        '{C:attention}most recently {C:red}destroyed{} {C:attention}playing card',
                         'to your deck when {C:attention}Blind{} is selected',
                         '{C:inactive}(Does nothing if no card has been destroyed)'}
             },
@@ -16,6 +17,10 @@ return {
                 name = 'Hapy',
                 text = {'Adds a copy of the most', 'recently scored {C:attention}#1#{} to your deck',
                         'when {C:attention}Blind{} is selected'}
+            },
+            j_maeplThing_Khnum = {
+                name = 'Khnum',
+                text = {'Earn {C:money}$#1#{} every', '{C:attention}#2#{} hands played', '{C:inactive}#3#'}
             }
         }
     },

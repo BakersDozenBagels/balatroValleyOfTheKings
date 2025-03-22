@@ -167,3 +167,37 @@ Joker {
         end
     end
 }
+-- END REGION: Isis and Hapy
+
+Joker {
+    key = 'Khnum',
+    pos = {3, 3},
+    extra = {5, 3, 2},
+    rarity = 1,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra[1], card.ability.extra[2], localize {
+                type = 'variable',
+                key = (card.ability.extra[3] == 0 and 'loyalty_active' or 'loyalty_inactive'),
+                vars = {card.ability.extra[3]}
+            }}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            card.ability.extra[3] = (card.ability.extra[2] - 1 -
+                                        (G.GAME.hands_played + 1 - card.ability.hands_played_at_create)) %
+                                        (card.ability.extra[2])
+            if card.ability.extra[3] == card.ability.extra[2] - 1 then
+                return {
+                    dollars = card.ability.extra[1]
+                }
+            end
+            if card.ability.extra[3] == 0 and not context.blueprint then
+                juice_card_until(card, function()
+                    return card.ability.extra[3] == 0
+                end)
+            end
+        end
+    end
+}
