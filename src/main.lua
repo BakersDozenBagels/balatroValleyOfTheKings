@@ -201,3 +201,41 @@ Joker {
         end
     end
 }
+
+Joker {
+    key = 'Min',
+    pos = {2, 3},
+    extra = 3,
+    rarity = 3,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+        return {
+            vars = {G.GAME.probabilities.normal, card.ability.extra}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.cardarea == G.jokers and not G.game_over and G.GAME.blind.boss then
+            if pseudorandom('j_maeplThing_Min') < G.GAME.probabilities.normal / card.ability.extra then
+                G.E_MANAGER:add_event(Event {
+                    func = function()
+                        local joker = copy_card(pseudorandom_element(G.jokers.cards,
+                            pseudoseed('j_maeplThing_Min_choice')), nil, nil, nil, true)
+                        joker:set_edition({
+                            negative = true
+                        })
+                        joker:add_to_deck()
+                        G.jokers:emplace(joker)
+                        return true
+                    end
+                })
+                return {
+                    message = localize('k_duplicated_ex')
+                }
+            else
+                return {
+                    message = localize('k_nope_ex')
+                }
+            end
+        end
+    end
+}

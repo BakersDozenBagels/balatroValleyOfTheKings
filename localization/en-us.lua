@@ -21,6 +21,12 @@ return {
             j_maeplThing_Khnum = {
                 name = 'Khnum',
                 text = {'Earn {C:money}$#1#{} every', '{C:attention}#2#{} hands played', '{C:inactive}#3#'}
+            },
+            j_maeplThing_Min = {
+                name = 'Min',
+                text = {'{C:green}#1# in #2#{} chance to create',
+                        'a {C:dark_edition}negative{} copy of a random {C:attention}Joker',
+                        'after defeating a {C:attention}Boss Blind{}'}
             }
         }
     },
