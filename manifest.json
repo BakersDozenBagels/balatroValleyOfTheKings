@@ -1,0 +1,16 @@
+{
+  "id": "maepleThing",
+  "name": "Maepl Thing",
+  "author": ["BakersDozenBagels"],
+  "description": "",
+  "prefix": "maepleThing",
+  "main_file": "src/main.lua",
+  "priority": 0,
+  "badge_colour": "EDD198",
+  "badge_text_colour": "362708",
+  "display_name": "Maepl Thing",
+  "version": "0.0.0",
+  "dependencies": ["Steamodded (>=1.0.0~ALPHA-1304a)", "Lovely (>=0.6)"],
+  "conflicts": [],
+  "provides": []
+}
