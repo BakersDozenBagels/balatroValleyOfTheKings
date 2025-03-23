@@ -23,6 +23,19 @@ SMODS.Atlas {
     py = 95
 }
 
+local contributions = {
+    idea = "Idea: ",
+    code = "Code: ",
+    art = "Art: "
+}
+local contributors = {
+    bagels = {
+        text = 'BakersDozenBagels',
+        fg = HEX('362708'),
+        bg = HEX('EDD198')
+    }
+}
+
 local function Joker(o)
     o.atlas = 'Jokers'
     if o.extra then
@@ -46,7 +59,29 @@ local function Joker(o)
     o.discovered = true
     o.cost = 1
 
-    SMODS.Joker(o)
+    local credits = o.credits or {}
+    o.credits = nil
+
+    local j = SMODS.Joker(o)
+
+    local raw_obj_set_badges = j.set_badges
+    j.set_badges = function(self, card, badges)
+        for _, v in ipairs(credits) do
+            badges[#badges + 1] = create_badge(contributions[v[1]] .. contributors[v[2]].text,
+                contributors[v[2]].bg or G.C.RED, contributors[v[2]].fg or G.C.BLACK, 0.75)
+        end
+        if self.artist and (self.discovered or card.bypass_discovery_center) then
+            local artist = Bakery_API.contributors[self.artist]
+            badges[#badges + 1] = create_badge(localize {
+                type = 'variable',
+                key = 'v_Bakery_artist',
+                vars = {artist.name}
+            }, artist.bg or G.C.RED, artist.fg or G.C.BLACK, 0.7)
+        end
+        if raw_obj_set_badges then
+            raw_obj_set_badges(self, card, badges)
+        end
+    end
 end
 
 Joker {
@@ -55,6 +90,7 @@ Joker {
     extra = {5, 2},
     rarity = 3,
     cost = 8,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.modify_scoring_hand then
             if context.other_card.base.nominal > card.ability.extra[1] then
@@ -119,6 +155,7 @@ Joker {
     extra = {2, false},
     rarity = 3,
     cost = 7,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.setting_blind and card.ability.extra[1] >= 1 and card.ability.extra[2] then
             local last_destroyed = G.maeplThing_destroyed_card_holding_zone.cards[1]
@@ -160,6 +197,7 @@ Joker {
     extra = {'King', false},
     rarity = 3,
     cost = 8,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card.base.value == card.ability.extra[1] and
             not card.debuff and not context.blueprint then
@@ -196,6 +234,7 @@ Joker {
     extra = {5, 3, 2},
     rarity = 1,
     cost = 6,
+    credits = {{'code', 'bagels'}},
     loc_vars = function(self, info_queue, card)
         return {
             vars = {card.ability.extra[1], card.ability.extra[2], localize {
@@ -230,6 +269,7 @@ Joker {
     extra = 3,
     rarity = 3,
     cost = 9,
+    credits = {{'code', 'bagels'}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
         return {
@@ -269,6 +309,7 @@ Joker {
     extra = 1.5,
     rarity = 3,
     cost = 8,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.joker_main then
             local flag = false
@@ -297,6 +338,7 @@ for _, v in ipairs(consumable_makers) do
         pos = v[4],
         rarity = 2,
         cost = v[5],
+        credits = {{'code', 'bagels'}},
         loc_vars = function(self, info_queue, card)
             info_queue[#info_queue + 1] = {
                 key = 'e_negative_consumable',
@@ -346,6 +388,7 @@ Joker {
     extra = 2,
     rarity = 3,
     cost = 10,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card.base.value == 'King' then
             return {
@@ -363,6 +406,7 @@ Joker {
     extra = {0.02, 1},
     rarity = 3,
     cost = 10,
+    credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.joker_main then
             return {
