@@ -9,7 +9,7 @@
   "badge_colour": "ce1126",
   "badge_text_colour": "000000",
   "display_name": "Valley of the Kings",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": ["Steamodded (>=1.0.0~ALPHA-1304a)", "Lovely (>=0.6)"],
   "conflicts": [],
   "provides": []
