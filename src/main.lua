@@ -55,10 +55,6 @@ local function Joker(o)
         }
     end
 
-    -- Temporary
-    o.discovered = true
-    o.cost = 1
-
     local credits = o.credits or {}
     o.credits = nil
 
