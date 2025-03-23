@@ -15,8 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
---]]
-
+]] --
 SMODS.Atlas {
     key = 'Jokers',
     path = 'Jokers.png',
@@ -55,6 +54,7 @@ Joker {
     pos = {2, 0},
     extra = {5, 2},
     rarity = 3,
+    cost = 8,
     calculate = function(self, card, context)
         if context.modify_scoring_hand then
             if context.other_card.base.nominal > card.ability.extra[1] then
@@ -118,6 +118,7 @@ Joker {
     pos = {0, 1},
     extra = {2, false},
     rarity = 3,
+    cost = 7,
     calculate = function(self, card, context)
         if context.setting_blind and card.ability.extra[1] >= 1 and card.ability.extra[2] then
             local last_destroyed = G.maeplThing_destroyed_card_holding_zone.cards[1]
@@ -158,6 +159,7 @@ Joker {
     pos = {4, 3},
     extra = {'King', false},
     rarity = 3,
+    cost = 8,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card.base.value == card.ability.extra[1] and
             not card.debuff and not context.blueprint then
@@ -193,6 +195,7 @@ Joker {
     pos = {3, 3},
     extra = {5, 3, 2},
     rarity = 1,
+    cost = 6,
     loc_vars = function(self, info_queue, card)
         return {
             vars = {card.ability.extra[1], card.ability.extra[2], localize {
@@ -226,6 +229,7 @@ Joker {
     pos = {2, 3},
     extra = 3,
     rarity = 3,
+    cost = 9,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
         return {
@@ -264,6 +268,7 @@ Joker {
     pos = {1, 3},
     extra = 1.5,
     rarity = 3,
+    cost = 8,
     calculate = function(self, card, context)
         if context.joker_main then
             local flag = false
@@ -283,14 +288,15 @@ Joker {
     end
 }
 
-local consumable_makers = {{'Nut', 1, 'c_high_priestess', {0, 3}}, {'Sobek', 1, 'c_lovers', {4, 2}},
-                           {'Ptah', 2, 'c_world', {3, 2}}}
+local consumable_makers = {{'Nut', 1, 'c_high_priestess', {0, 3}, 6}, {'Sobek', 1, 'c_lovers', {4, 2}, 7},
+                           {'Ptah', 2, 'c_world', {3, 2}, 7}}
 
 for _, v in ipairs(consumable_makers) do
     Joker {
         key = v[1],
         pos = v[4],
         rarity = 2,
+        cost = v[5],
         loc_vars = function(self, info_queue, card)
             info_queue[#info_queue + 1] = {
                 key = 'e_negative_consumable',
@@ -339,6 +345,7 @@ Joker {
     pos = {2, 2},
     extra = 2,
     rarity = 3,
+    cost = 10,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card.base.value == 'King' then
             return {
@@ -355,6 +362,7 @@ Joker {
     pos = {1, 2},
     extra = {0.02, 1},
     rarity = 3,
+    cost = 10,
     calculate = function(self, card, context)
         if context.joker_main then
             return {
