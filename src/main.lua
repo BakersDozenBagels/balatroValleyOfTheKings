@@ -314,3 +314,43 @@ for _, v in ipairs(consumable_makers) do
         end
     }
 end
+
+Joker {
+    key = 'Horus',
+    pos = {2, 2},
+    extra = 2,
+    rarity = 3,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and context.other_card.base.value == 'King' then
+            return {
+                x_mult = card.ability.extra,
+                juice_card = context.other_card,
+                card = card
+            }
+        end
+    end
+}
+
+Joker {
+    key = 'Erebus',
+    pos = {1, 2},
+    extra = {0.02, 1},
+    rarity = 3,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                x_mult = card.ability.extra[2]
+            }
+        end
+
+        if context.individual and context.cardarea == G.play and
+            (context.other_card:is_suit('Clubs') or context.other_card:is_suit('Spades')) then
+            card.ability.extra[2] = card.ability.extra[2] + card.ability.extra[1]
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}

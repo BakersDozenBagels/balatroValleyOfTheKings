@@ -46,6 +46,15 @@ return {
                 name = 'Ptah',
                 text = {'Create {C:attention}two {C:dark_edition}Negative {C:tarot}Worlds',
                         'when {C:attention}Blind{} is selected'}
+            },
+            j_maeplThing_Horus = {
+                name = 'Horus',
+                text = {'Scored {C:attention}Kings', 'give {X:mult,C:white}X#1#{} Mult'}
+            },
+            j_maeplThing_Erebus = {
+                name = 'Erebus',
+                text = {'Gains {X:mult,C:white}X#1#{} Mult when', 'a {C:clubs}Club{} or {C:spades}Spade', 'is scored',
+                        '{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)'}
             }
         }
     },
