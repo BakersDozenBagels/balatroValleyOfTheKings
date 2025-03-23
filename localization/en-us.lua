@@ -32,6 +32,11 @@ return {
                 name = 'Thoth',
                 text = {'{C:tarot}Tarot{} cards in your', '{C:attention}consumable{} area give',
                         '{X:mult,C:white}X#1#{} Mult'}
+            },
+            j_maeplThing_Nut = {
+                name = 'Nut',
+                text = {'Create a {C:dark_edition}Negative{} {C:tarot}High Priestess{}',
+                        'when {C:attention}Blind{} is selected'}
             }
         }
     },
