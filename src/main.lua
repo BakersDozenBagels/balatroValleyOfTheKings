@@ -24,9 +24,9 @@ SMODS.Atlas {
 }
 
 local contributions = {
-    idea = "Idea: ",
-    code = "Code: ",
-    art = "Art: "
+    idea = 'Idea: ',
+    code = 'Code: ',
+    art = 'Art: '
 }
 local contributors = {
     bagels = {
@@ -46,8 +46,8 @@ local contributors = {
     },
     revo = {
         text = 'Revo',
-        fg = G.C.WHITE,
-        bg = G.C.UI.TEXT_DARK
+        fg = HEX('40093A'),
+        bg = HEX('7E7AFF')
     }
 }
 
@@ -481,7 +481,7 @@ Joker {
 }
 
 Joker {
-    key = "Anhur",
+    key = 'Anhur',
     pos = {3, 0},
     extra = 2,
     rarity = 2,
@@ -497,7 +497,7 @@ Joker {
 }
 
 Joker {
-    key = "AmiUt",
+    key = 'AmiUt',
     pos = {4, 0},
     extra = {
         chips = 0,
@@ -535,7 +535,7 @@ Joker {
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chipg
                 card.ability.extra.timer = 0
                 return {
-                    message = localize("k_upgrade_ex")
+                    message = localize('k_upgrade_ex')
                 }
             end
         end
@@ -543,14 +543,14 @@ Joker {
 }
 
 Joker {
-    key = "Ra",
+    key = 'Ra',
     pos = {1, 1},
     rarity = 3,
     cost = 9,
     credits = {{'code', 'revo'}},
     calculate = function(self, card, context)
         if context.cardarea == G.play and context.repetition then
-            if context.other_card:is_suit("Hearts") then
+            if context.other_card:is_suit('Hearts') then
                 return {
                     repetitions = 2
                 }
@@ -560,14 +560,14 @@ Joker {
 }
 
 Joker {
-    key = "Kek",
+    key = 'Kek',
     pos = {2, 1},
     rarity = 3,
     cost = 9,
     credits = {{'code', 'revo'}},
     calculate = function(self, card, context)
         if context.cardarea == G.play and context.repetition then
-            if context.other_card:is_suit("Clubs") then
+            if context.other_card:is_suit('Clubs') then
                 return {
                     repetitions = 2
                 }
@@ -577,7 +577,7 @@ Joker {
 }
 
 Joker {
-    key = "Set",
+    key = 'Set',
     pos = {3, 1},
     rarity = 3,
     cost = 8,
@@ -607,7 +607,7 @@ Joker {
 }
 
 Joker {
-    key = "Mafdet",
+    key = 'Mafdet',
     pos = {4, 1},
     extra = {
         xmult = 1,
@@ -627,7 +627,7 @@ Joker {
             context.main_eval and not context.blueprint and not context.repetition then
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
             return {
-                message = localize("k_upgrade_ex"),
+                message = localize('k_upgrade_ex'),
                 color = G.C.MULT
             }
         end
@@ -640,7 +640,7 @@ Joker {
 }
 
 Joker {
-    key = "Anubis",
+    key = 'Anubis',
     pos = {0, 2},
     extra = {
         mult = 0,
@@ -659,7 +659,7 @@ Joker {
         if context.remove_playing_cards and not context.scoring_hand and not context.blueprint and not context.repetition then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.multg * #context.removed
             return {
-                message = localize("k_upgrade_ex"),
+                message = localize('k_upgrade_ex'),
                 color = G.C.MULT
             }
         end
