@@ -43,6 +43,11 @@ local contributors = {
         text = 'Reaperkun',
         fg = G.C.WHITE,
         bg = G.C.UI.TEXT_DARK
+    },
+    revo = {
+        text = 'Revo',
+        fg = G.C.WHITE,
+        bg = G.C.UI.TEXT_DARK
     }
 }
 
@@ -406,6 +411,7 @@ Joker {
     extra = {0.02, 1},
     rarity = 3,
     cost = 10,
+    perishable_compat = false,
     credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.joker_main then
@@ -425,3 +431,244 @@ Joker {
         end
     end
 }
+
+-- REGION: Jokers by Revo
+Joker {
+    key = 'Osiris',
+    pos = {0, 0},
+    rarity = 3,
+    cost = 6,
+    credits = {{'code', 'revo'}},
+    calculate = function(self, card, context)
+        if context.destroy_card and context.cardarea == 'unscored' then
+            return {
+                remove = true
+            }
+        end
+    end
+}
+
+Joker {
+    key = 'Hathor',
+    pos = {1, 0},
+    extra = {
+        xmult = 1,
+        xmult_gain = 1
+    },
+    rarity = 3,
+    perishable_compat = false,
+    credits = {{'code', 'revo'}},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.c_lovers
+        return {
+            vars = {card.ability.extra.xmult, card.ability.extra.xmult_gain}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra.xmult
+            }
+        end
+        if context.using_consumeable and context.consumeable.config.center.key == 'c_lovers' and not context.blueprint then
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+            return {
+                message = localize('k_upgrade_ex'),
+                color = G.C.MULT
+            }
+        end
+    end
+}
+
+Joker {
+    key = "Anhur",
+    pos = {3, 0},
+    extra = 2,
+    rarity = 2,
+    cost = 5,
+    credits = {{'code', 'revo'}},
+    calculate = function(self, card, context)
+        if context.joker_main and G.GAME.blind.boss then
+            return {
+                xmult = card.ability.extra
+            }
+        end
+    end
+}
+
+Joker {
+    key = "AmiUt",
+    pos = {4, 0},
+    extra = {
+        chips = 0,
+        chipg = 30,
+        timer = 0
+    },
+    rarity = 2,
+    cost = 4,
+    perishable_compat = false,
+    credits = {{'code', 'revo'}},
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.chips, card.ability.extra.chipg, localize {
+                type = 'variable',
+                key = (card.ability.extra.timer >= 8 and 'loyalty_active' or 'loyalty_inactive'),
+                vars = {8 - card.ability.extra.timer}
+            }}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                chips = card.ability.extra.chips
+            }
+        end
+        if context.before and context.cardarea and card.ability.extra.timer < 9 and not context.blueprint and
+            not context.repetition and not context.individual then
+            card.ability.extra.timer = card.ability.extra.timer + 1
+            if card.ability.extra.timer == 8 then
+                juice_card_until(card, function()
+                    return card.ability.extra.timer == 8
+                end)
+            end
+            if card.ability.extra.timer >= 9 then
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chipg
+                card.ability.extra.timer = 0
+                return {
+                    message = localize("k_upgrade_ex")
+                }
+            end
+        end
+    end
+}
+
+Joker {
+    key = "Ra",
+    pos = {1, 1},
+    rarity = 3,
+    cost = 9,
+    credits = {{'code', 'revo'}},
+    calculate = function(self, card, context)
+        if context.cardarea == G.play and context.repetition then
+            if context.other_card:is_suit("Hearts") then
+                return {
+                    repetitions = 2
+                }
+            end
+        end
+    end
+}
+
+Joker {
+    key = "Kek",
+    pos = {2, 1},
+    rarity = 3,
+    cost = 9,
+    credits = {{'code', 'revo'}},
+    calculate = function(self, card, context)
+        if context.cardarea == G.play and context.repetition then
+            if context.other_card:is_suit("Clubs") then
+                return {
+                    repetitions = 2
+                }
+            end
+        end
+    end
+}
+
+Joker {
+    key = "Set",
+    pos = {3, 1},
+    rarity = 3,
+    cost = 8,
+    credits = {{'code', 'revo'}},
+    calculate = function(self, card, context)
+        if context.final_scoring_step and context.cardarea then
+            local done = false
+            for k, v in ipairs(context.scoring_hand) do
+                if not v.edition then
+                    done = true
+                    G.E_MANAGER:add_event(Event {
+                        trigger = before,
+                        delay = 0.2,
+                        func = function()
+                            v:juice_up(0.3, 0.4)
+                            v:set_edition(poll_edition(pseudorandom('j_valleyOfTheKings_Set'), nil, true, true))
+                            return true
+                        end
+                    })
+                end
+            end
+            if done then
+                delay(1)
+            end
+        end
+    end
+}
+
+Joker {
+    key = "Mafdet",
+    pos = {4, 1},
+    extra = {
+        xmult = 1,
+        xmultg = 0.5
+    },
+    rarity = 3,
+    cost = 7,
+    credits = {{'code', 'revo'}},
+    perishable_compat = false,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.xmult, card.ability.extra.xmultg}
+        }
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.current_round.hands_played >= 0 and G.GAME.current_round.hands_played <= 1 and context.end_of_round and
+            context.main_eval and not context.blueprint and not context.repetition then
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
+            return {
+                message = localize("k_upgrade_ex"),
+                color = G.C.MULT
+            }
+        end
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra.xmult
+            }
+        end
+    end
+}
+
+Joker {
+    key = "Anubis",
+    pos = {0, 2},
+    extra = {
+        mult = 0,
+        multg = 5
+    },
+    rarity = 3,
+    cost = 5,
+    credits = {{'code', 'revo'}},
+    perishable_compat = false,
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.mult, card.ability.extra.multg}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.remove_playing_cards and not context.scoring_hand and not context.blueprint and not context.repetition then
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.multg * #context.removed
+            return {
+                message = localize("k_upgrade_ex"),
+                color = G.C.MULT
+            }
+        end
+        if context.joker_main then
+            return {
+                mult = card.ability.extra.mult
+            }
+        end
+    end
+
+}
+-- END REGION: Jokers by Revo

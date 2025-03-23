@@ -15,9 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
---]]
-
-return {
+--]] return {
     descriptions = {
         Joker = {
             j_valleyOfTheKings_Bes = {
@@ -74,6 +72,46 @@ return {
                 name = 'Erebus',
                 text = {'Gains {X:mult,C:white}X#1#{} Mult when', 'a {C:clubs}Club{} or {C:spades}Spade', 'is scored',
                         '{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)'}
+            },
+            j_valleyOfTheKings_Osiris = {
+                name = 'Osiris',
+                text = {'All unscoring cards', 'are {C:red}destroyed'}
+            },
+            j_valleyOfTheKings_Hathor = {
+                name = 'Hathor',
+                text = {'Gains {X:mult,C:white}X#2#{} Mult for', 'each {C:tarot}Lovers{} used',
+                        '{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)'}
+            },
+            j_valleyOfTheKings_Anhur = {
+                name = 'Anhur',
+                text = {'{X:mult,C:white}X#1#{} Mult against', '{C:attention}Boss Blinds'}
+            },
+            j_valleyOfTheKings_AmiUt = {
+                name = 'Ami-ut',
+                text = {'Gains {C:chips}+#2#{} Chips', 'every {C:attention}9th{} hand',
+                        '{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)', '{C:inactive}#3#'}
+            },
+            j_valleyOfTheKings_Ra = {
+                name = 'Ra',
+                text = {'{C:attention}Retrigger', 'played {C:hearts}Hearts', 'cards {C:attention}twice'}
+            },
+            j_valleyOfTheKings_Kek = {
+                name = 'Kek',
+                text = {'{C:attention}Retrigger', 'played {C:clubs}Clubs', 'cards {C:attention}twice'}
+            },
+            j_valleyOfTheKings_Set = {
+                name = 'Set',
+                text = {'Applies a {C:attention}random {C:dark_edition}edition', 'to scored cards after play'}
+            },
+            j_valleyOfTheKings_Mafdet = {
+                name = 'Mafdet',
+                text = {'Gains {X:mult,C:white}X#2#{} Mult if', '{C:attention}Blind{} is defeated',
+                        'in {C:attention}1 hand', '{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)'}
+            },
+            j_valleyOfTheKings_Anubis = {
+                name = 'Anubis',
+                text = {'Gains {C:mult}+#2#{} Mult when a', '{C:attention}playing card{} is {C:red}destroyed',
+                        '{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)'}
             }
         }
     },
