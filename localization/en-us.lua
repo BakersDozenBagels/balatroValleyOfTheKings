@@ -27,6 +27,11 @@ return {
                 text = {'{C:green}#1# in #2#{} chance to create',
                         'a {C:dark_edition}negative{} copy of a random {C:attention}Joker',
                         'after defeating a {C:attention}Boss Blind{}'}
+            },
+            j_maeplThing_Thoth = {
+                name = 'Thoth',
+                text = {'{C:tarot}Tarot{} cards in your', '{C:attention}consumable{} area give',
+                        '{X:mult,C:white}X#1#{} Mult'}
             }
         }
     },

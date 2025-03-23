@@ -67,8 +67,8 @@ end
 local raw_Card_remove = Card.remove
 function Card:remove()
     if G.maeplThing_destroyed_card_holding_zone and not self.params.maeplThing_phantom and self.playing_card and
-        not self.debuff and next(SMODS.find_card("j_maeplThing_Isis", true)) then
-        for _, v in pairs(SMODS.find_card("j_maeplThing_Isis", true)) do
+        not self.debuff and next(SMODS.find_card('j_maeplThing_Isis', true)) then
+        for _, v in pairs(SMODS.find_card('j_maeplThing_Isis', true)) do
             v.ability.extra[2] = true
         end
         local old = G.maeplThing_destroyed_card_holding_zone.cards[1]
@@ -120,7 +120,7 @@ Joker {
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then -- If there are no Isises left, forget the tracked card
-            for _, v in pairs(SMODS.find_card("j_maeplThing_Isis", true)) do
+            for _, v in pairs(SMODS.find_card('j_maeplThing_Isis', true)) do
                 if v ~= card then
                     return
                 end
@@ -235,6 +235,30 @@ Joker {
                 return {
                     message = localize('k_nope_ex')
                 }
+            end
+        end
+    end
+}
+
+Joker {
+    key = 'Thoth',
+    pos = {1, 3},
+    extra = 1.5,
+    rarity = 3,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local flag = false
+            for _, c in ipairs(G.consumeables.cards) do
+                if c.config.center.set == 'Tarot' then
+                    SMODS.calculate_effect({
+                        x_mult = card.ability.extra,
+                        juice_card = c,
+                        card = context.blueprint_card or card
+                    }, context.blueprint_card or card)
+                end
+            end
+            if flag then
+                return {}, true
             end
         end
     end
