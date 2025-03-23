@@ -35,7 +35,16 @@ return {
             },
             j_maeplThing_Nut = {
                 name = 'Nut',
-                text = {'Create a {C:dark_edition}Negative{} {C:tarot}High Priestess{}',
+                text = {'Create a {C:dark_edition}Negative {C:tarot}High Priestess',
+                        'when {C:attention}Blind{} is selected'}
+            },
+            j_maeplThing_Sobek = {
+                name = 'Sobek',
+                text = {'Create a {C:dark_edition}Negative {C:tarot}Lovers', 'when {C:attention}Blind{} is selected'}
+            },
+            j_maeplThing_Ptah = {
+                name = 'Ptah',
+                text = {'Create {C:attention}two {C:dark_edition}Negative {C:tarot}Worlds',
                         'when {C:attention}Blind{} is selected'}
             }
         }

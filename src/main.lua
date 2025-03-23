@@ -264,41 +264,53 @@ Joker {
     end
 }
 
-Joker {
-    key = 'Nut',
-    pos = {0, 3},
-    rarity = 2,
-    loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = {
-            key = 'e_negative_consumable',
-            set = 'Edition',
-            config = {
-                extra = 1
+local consumable_makers = {{'Nut', 1, 'c_high_priestess', {0, 3}}, {'Sobek', 1, 'c_lovers', {4, 2}},
+                           {'Ptah', 2, 'c_world', {3, 2}}}
+
+for _, v in ipairs(consumable_makers) do
+    Joker {
+        key = v[1],
+        pos = v[4],
+        rarity = 2,
+        loc_vars = function(self, info_queue, card)
+            info_queue[#info_queue + 1] = {
+                key = 'e_negative_consumable',
+                set = 'Edition',
+                config = {
+                    extra = 1
+                }
             }
-        }
-        info_queue[#info_queue + 1] = G.P_CENTERS.c_high_priestess
-    end,
-    calculate = function(self, card, context)
-        if context.setting_blind then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
-                        message = localize('k_plus_tarot'),
-                        colour = G.C.DARK_EDITION
-                    })
-                    local hp = SMODS.create_card({
-                        set = 'Planet',
-                        area = G.consumeables,
-                        key = 'c_high_priestess',
-                        key_append = 'j_maeplThing_Nut',
-                        no_edition = true,
-                        edition = 'e_negative'
-                    })
-                    hp:add_to_deck()
-                    G.consumeables:emplace(hp)
-                    return true
+            info_queue[#info_queue + 1] = G.P_CENTERS[v[3]]
+        end,
+        calculate = function(self, card, context)
+            if context.setting_blind then
+                for _ = 1, v[2] do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
+                                message = localize('k_plus_tarot'),
+                                colour = G.C.DARK_EDITION
+                            })
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    local hp = SMODS.create_card({
+                                        set = 'Planet',
+                                        area = G.consumeables,
+                                        key = v[3],
+                                        key_append = 'j_maeplThing_Nut',
+                                        no_edition = true,
+                                        edition = 'e_negative'
+                                    })
+                                    hp:add_to_deck()
+                                    G.consumeables:emplace(hp)
+                                    return true
+                                end
+                            }))
+                            return true
+                        end
+                    }))
                 end
-            }))
+            end
         end
-    end
-}
+    }
+end
