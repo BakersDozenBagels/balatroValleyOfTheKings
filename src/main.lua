@@ -33,6 +33,16 @@ local contributors = {
         text = 'BakersDozenBagels',
         fg = HEX('362708'),
         bg = HEX('EDD198')
+    },
+    maple = {
+        text = 'Maple Maelstrom',
+        fg = G.C.WHITE,
+        bg = HEX('8b4513')
+    },
+    reaper = {
+        text = 'Reaperkun',
+        fg = G.C.WHITE,
+        bg = G.C.UI.TEXT_DARK
     }
 }
 
@@ -57,6 +67,8 @@ local function Joker(o)
 
     local credits = o.credits or {}
     o.credits = nil
+    credits[#credits + 1] = {'idea', 'maple'}
+    credits[#credits + 1] = {'idea', 'reaper'}
 
     local j = SMODS.Joker(o)
 
@@ -64,15 +76,7 @@ local function Joker(o)
     j.set_badges = function(self, card, badges)
         for _, v in ipairs(credits) do
             badges[#badges + 1] = create_badge(contributions[v[1]] .. contributors[v[2]].text,
-                contributors[v[2]].bg or G.C.RED, contributors[v[2]].fg or G.C.BLACK, 0.75)
-        end
-        if self.artist and (self.discovered or card.bypass_discovery_center) then
-            local artist = Bakery_API.contributors[self.artist]
-            badges[#badges + 1] = create_badge(localize {
-                type = 'variable',
-                key = 'v_Bakery_artist',
-                vars = {artist.name}
-            }, artist.bg or G.C.RED, artist.fg or G.C.BLACK, 0.7)
+                contributors[v[2]].bg or G.C.RED, contributors[v[2]].fg or G.C.BLACK, 0.7)
         end
         if raw_obj_set_badges then
             raw_obj_set_badges(self, card, badges)
@@ -106,30 +110,30 @@ Joker {
 
 -- REGION: Isis and Hapy
 -- This function is referenced in lovely.toml
-function maeplThing_create_card_area()
-    G.maeplThing_destroyed_card_holding_zone = CardArea(-100, -100, 0, 0, {
+function valleyOfTheKings_create_card_area()
+    G.valleyOfTheKings_destroyed_card_holding_zone = CardArea(-100, -100, 0, 0, {
         type = 'discard'
     })
-    G.maeplThing_king_holding_zone = CardArea(-100, -100, 0, 0, {
+    G.valleyOfTheKings_king_holding_zone = CardArea(-100, -100, 0, 0, {
         type = 'discard'
     })
 end
 
 local raw_Card_remove = Card.remove
 function Card:remove()
-    if G.maeplThing_destroyed_card_holding_zone and not self.params.maeplThing_phantom and self.playing_card and
-        not self.debuff and next(SMODS.find_card('j_maeplThing_Isis', true)) then
-        for _, v in pairs(SMODS.find_card('j_maeplThing_Isis', true)) do
+    if G.valleyOfTheKings_destroyed_card_holding_zone and not self.params.valleyOfTheKings_phantom and self.playing_card and
+        not self.debuff and next(SMODS.find_card('j_valleyOfTheKings_Isis', true)) then
+        for _, v in pairs(SMODS.find_card('j_valleyOfTheKings_Isis', true)) do
             v.ability.extra[2] = true
         end
-        local old = G.maeplThing_destroyed_card_holding_zone.cards[1]
+        local old = G.valleyOfTheKings_destroyed_card_holding_zone.cards[1]
         if old then
             old:remove()
         end
         local clone = copy_card(self)
-        clone.params.maeplThing_phantom = true
-        G.maeplThing_destroyed_card_holding_zone:emplace(clone)
-        G.maeplThing_destroyed_card_holding_zone:hard_set_cards()
+        clone.params.valleyOfTheKings_phantom = true
+        G.valleyOfTheKings_destroyed_card_holding_zone:emplace(clone)
+        G.valleyOfTheKings_destroyed_card_holding_zone:hard_set_cards()
     end
     raw_Card_remove(self)
 end
@@ -137,7 +141,7 @@ end
 local function copy_to_deck(card)
     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
     local clone = copy_card(card, nil, nil, G.playing_card)
-    clone.params.maeplThing_phantom = nil
+    clone.params.valleyOfTheKings_phantom = nil
     clone:add_to_deck()
     G.deck.config.card_limit = G.deck.config.card_limit + 1
     table.insert(G.playing_cards, clone)
@@ -154,7 +158,7 @@ Joker {
     credits = {{'code', 'bagels'}},
     calculate = function(self, card, context)
         if context.setting_blind and card.ability.extra[1] >= 1 and card.ability.extra[2] then
-            local last_destroyed = G.maeplThing_destroyed_card_holding_zone.cards[1]
+            local last_destroyed = G.valleyOfTheKings_destroyed_card_holding_zone.cards[1]
             if last_destroyed then
                 local created = {}
 
@@ -173,13 +177,13 @@ Joker {
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then -- If there are no Isises left, forget the tracked card
-            for _, v in pairs(SMODS.find_card('j_maeplThing_Isis', true)) do
+            for _, v in pairs(SMODS.find_card('j_valleyOfTheKings_Isis', true)) do
                 if v ~= card then
                     return
                 end
             end
 
-            local old = G.maeplThing_destroyed_card_holding_zone.cards[1]
+            local old = G.valleyOfTheKings_destroyed_card_holding_zone.cards[1]
             if old then
                 old:remove()
             end
@@ -197,20 +201,20 @@ Joker {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card.base.value == card.ability.extra[1] and
             not card.debuff and not context.blueprint then
-            local old = G.maeplThing_king_holding_zone.cards[1]
+            local old = G.valleyOfTheKings_king_holding_zone.cards[1]
             if old then
                 old:remove()
             end
             local clone = copy_card(context.other_card)
-            clone.params.maeplThing_phantom = true
-            G.maeplThing_king_holding_zone:emplace(clone)
-            G.maeplThing_king_holding_zone:hard_set_cards()
+            clone.params.valleyOfTheKings_phantom = true
+            G.valleyOfTheKings_king_holding_zone:emplace(clone)
+            G.valleyOfTheKings_king_holding_zone:hard_set_cards()
 
             card.ability.extra[2] = true
         end
 
         if context.setting_blind and card.ability.extra[2] then
-            local last_destroyed = G.maeplThing_king_holding_zone.cards[1]
+            local last_destroyed = G.valleyOfTheKings_king_holding_zone.cards[1]
             if last_destroyed then
                 return {
                     message = localize('k_copied_ex'),
@@ -274,11 +278,11 @@ Joker {
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.cardarea == G.jokers and not G.game_over and G.GAME.blind.boss then
-            if pseudorandom('j_maeplThing_Min') < G.GAME.probabilities.normal / card.ability.extra then
+            if pseudorandom('j_valleyOfTheKings_Min') < G.GAME.probabilities.normal / card.ability.extra then
                 G.E_MANAGER:add_event(Event {
                     func = function()
                         local joker = copy_card(pseudorandom_element(G.jokers.cards,
-                            pseudoseed('j_maeplThing_Min_choice')), nil, nil, nil, true)
+                            pseudoseed('j_valleyOfTheKings_Min_choice')), nil, nil, nil, true)
                         joker:set_edition({
                             negative = true
                         })
@@ -360,7 +364,7 @@ for _, v in ipairs(consumable_makers) do
                                         set = 'Planet',
                                         area = G.consumeables,
                                         key = v[3],
-                                        key_append = 'j_maeplThing_Nut',
+                                        key_append = 'j_valleyOfTheKings_Nut',
                                         no_edition = true,
                                         edition = 'e_negative'
                                     })

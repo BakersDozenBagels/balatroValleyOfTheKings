@@ -25,4 +25,4 @@ pattern = 'self.consumeables = CardArea('
 position = 'before'
 match_indent = true
 times = 1
-payload = "maeplThing_create_card_area()\n"
+payload = "valleyOfTheKings_create_card_area()\n"
