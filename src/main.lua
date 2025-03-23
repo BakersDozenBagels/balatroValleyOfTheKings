@@ -474,7 +474,7 @@ Joker {
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
             return {
                 message = localize('k_upgrade_ex'),
-                color = G.C.MULT
+                colour = G.C.MULT
             }
         end
     end
@@ -628,7 +628,7 @@ Joker {
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
             return {
                 message = localize('k_upgrade_ex'),
-                color = G.C.MULT
+                colour = G.C.MULT
             }
         end
         if context.joker_main then
@@ -660,7 +660,7 @@ Joker {
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.multg * #context.removed
             return {
                 message = localize('k_upgrade_ex'),
-                color = G.C.MULT
+                colour = G.C.MULT
             }
         end
         if context.joker_main then
